@@ -152,7 +152,7 @@ class Babel(object):
 
         .. versionadded:: 0.6
         """
-        dirname = os.path.join(self.app.root_path, 'translations')
+        dirname = self.app.config.get('BABEL_TRANSLATIONS_PATH') or os.path.join(self.app.root_path, 'translations')
         if not os.path.isdir(dirname):
             return []
         result = []
@@ -192,7 +192,7 @@ def get_translations():
         return None
     translations = getattr(ctx, 'babel_translations', None)
     if translations is None:
-        dirname = os.path.join(ctx.app.root_path, 'translations')
+        dirname = ctx.app.config.get('BABEL_TRANSLATIONS_PATH') or os.path.join(ctx.app.root_path, 'translations')
         translations = support.Translations.load(dirname, [get_locale()])
         ctx.babel_translations = translations
     return translations
